@@ -1,0 +1,624 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "HNG Boilerplate Laravel API",
+    "description": "API documentation for HNG Boilerplate Laravel project",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000/api",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "summary": "Register a new user",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["name", "email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Login a user",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User logged in successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "summary": "Logout a user",
+        "tags": ["Authentication"],
+        "responses": {
+          "200": {
+            "description": "User logged out successfully"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "List all users",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "A list of users"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Get user details",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The user ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update user",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The user ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The user ID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User deleted successfully"
+          }
+        }
+      }
+    },
+    "/organizations": {
+      "get": {
+        "summary": "List all organizations",
+        "tags": ["Organizations"],
+        "responses": {
+          "200": {
+            "description": "A list of organizations"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create an organization",
+        "tags": ["Organizations"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Organization created successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/organizations/{id}": {
+      "get": {
+        "summary": "Get organization details",
+        "tags": ["Organizations"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The organization ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Organization details"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update organization",
+        "tags": ["Organizations"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The organization ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Organization updated successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete organization",
+        "tags": ["Organizations"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The organization ID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Organization deleted successfully"
+          }
+        }
+      }
+    },
+    "/superadmin/users": {
+      "get": {
+        "summary": "List all users for superadmin",
+        "tags": ["Superadmin"],
+        "responses": {
+          "200": {
+            "description": "A list of users"
+          }
+        }
+      }
+    },
+    "/superadmin/organizations": {
+      "get": {
+        "summary": "List all organizations for superadmin",
+        "tags": ["Superadmin"],
+        "responses": {
+          "200": {
+            "description": "A list of organizations"
+          }
+        }
+      }
+    },
+    "/superadmin/payments": {
+      "get": {
+        "summary": "List all payments for superadmin",
+        "tags": ["Superadmin"],
+        "responses": {
+          "200": {
+            "description": "A list of payments"
+          }
+        }
+      }
+    },
+    "/settings": {
+      "get": {
+        "summary": "Get settings",
+        "tags": ["Settings"],
+        "responses": {
+          "200": {
+            "description": "Settings details"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update settings",
+        "tags": ["Settings"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Settings updated successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "summary": "Get profile settings",
+        "tags": ["Profile"],
+        "responses": {
+          "200": {
+            "description": "Profile settings details"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update profile settings",
+        "tags": ["Profile"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile settings updated successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/contact": {
+      "post": {
+        "summary": "Contact us",
+        "tags": ["Contact"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                },
+                "required": ["name", "email", "message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message sent successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "get": {
+        "summary": "List all notifications",
+        "tags": ["Notifications"],
+        "responses": {
+          "200": {
+            "description": "A list of notifications"
+          }
+        }
+      }
+    },
+    "/notifications/{id}": {
+      "get": {
+        "summary": "Get notification details",
+        "tags": ["Notifications"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The notification ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification details"
+          }
+        }
+      }
+    },
+    "/blog/posts": {
+      "get": {
+        "summary": "List all blog posts",
+        "tags": ["Blog"],
+        "responses": {
+          "200": {
+            "description": "A list of blog posts"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a blog post",
+        "tags": ["Blog"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string"
+                  }
+                },
+                "required": ["title", "content"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Blog post created successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/blog/posts/{id}": {
+      "get": {
+        "summary": "Get blog post details",
+        "tags": ["Blog"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The blog post ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blog post details"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update blog post",
+        "tags": ["Blog"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The blog post ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Blog post updated successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete blog post",
+        "tags": ["Blog"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The blog post ID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Blog post deleted successfully"
+          }
+        }
+      }
+    }
+  }
+}
