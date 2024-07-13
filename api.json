@@ -1,157 +1,80 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "HNG Boilerplate Laravel API",
-    "description": "API documentation for HNG Boilerplate Laravel project",
-    "version": "1.0.0"
+    "title": "HNG Boilerplate API",
+    "version": "1.0.0",
+    "description": "API design for HNG Boilerplate Laravel project."
   },
   "servers": [
     {
       "url": "http://localhost:8000/api",
-      "description": "Local server"
+      "description": "Local development server"
     }
   ],
   "paths": {
-    "/register": {
+    "/users": {
+      "get": {
+        "summary": "Get all users",
+        "responses": {
+          "200": {
+            "description": "A list of users"
+          }
+        }
+      },
       "post": {
-        "summary": "Register a new user",
-        "tags": ["Authentication"],
+        "summary": "Create a new user",
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  }
-                },
-                "required": ["name", "email", "password"]
+                "$ref": "#/components/schemas/User"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "User registered successfully"
-          },
-          "400": {
-            "description": "Bad request"
+            "description": "User created successfully"
           }
         }
       }
     },
-    "/login": {
-      "post": {
-        "summary": "Login a user",
-        "tags": ["Authentication"],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  }
-                },
-                "required": ["email", "password"]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "User logged in successfully"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/logout": {
-      "post": {
-        "summary": "Logout a user",
-        "tags": ["Authentication"],
-        "responses": {
-          "200": {
-            "description": "User logged out successfully"
-          }
-        }
-      }
-    },
-    "/users": {
+    "/users/{userId}": {
       "get": {
-        "summary": "List all users",
-        "tags": ["Users"],
-        "responses": {
-          "200": {
-            "description": "A list of users"
-          }
-        }
-      }
-    },
-    "/users/{id}": {
-      "get": {
-        "summary": "Get user details",
-        "tags": ["Users"],
+        "summary": "Get a user by ID",
         "parameters": [
           {
+            "name": "userId",
             "in": "path",
-            "name": "id",
+            "required": true,
             "schema": {
               "type": "integer"
-            },
-            "required": true,
-            "description": "The user ID"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "User details"
+            "description": "A single user"
           }
         }
       },
       "put": {
-        "summary": "Update user",
-        "tags": ["Users"],
+        "summary": "Update a user",
         "parameters": [
           {
+            "name": "userId",
             "in": "path",
-            "name": "id",
+            "required": true,
             "schema": {
               "type": "integer"
-            },
-            "required": true,
-            "description": "The user ID"
+            }
           }
         ],
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  }
-                }
+                "$ref": "#/components/schemas/User"
               }
             }
           }
@@ -159,24 +82,19 @@
         "responses": {
           "200": {
             "description": "User updated successfully"
-          },
-          "400": {
-            "description": "Bad request"
           }
         }
       },
       "delete": {
-        "summary": "Delete user",
-        "tags": ["Users"],
+        "summary": "Delete a user",
         "parameters": [
           {
+            "name": "userId",
             "in": "path",
-            "name": "id",
+            "required": true,
             "schema": {
               "type": "integer"
-            },
-            "required": true,
-            "description": "The user ID"
+            }
           }
         ],
         "responses": {
@@ -188,8 +106,7 @@
     },
     "/organizations": {
       "get": {
-        "summary": "List all organizations",
-        "tags": ["Organizations"],
+        "summary": "Get all organizations",
         "responses": {
           "200": {
             "description": "A list of organizations"
@@ -197,23 +114,12 @@
         }
       },
       "post": {
-        "summary": "Create an organization",
-        "tags": ["Organizations"],
+        "summary": "Create a new organization",
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                },
-                "required": ["name"]
+                "$ref": "#/components/schemas/Organization"
               }
             }
           }
@@ -221,62 +127,46 @@
         "responses": {
           "201": {
             "description": "Organization created successfully"
-          },
-          "400": {
-            "description": "Bad request"
           }
         }
       }
     },
-    "/organizations/{id}": {
+    "/organizations/{organizationId}": {
       "get": {
-        "summary": "Get organization details",
-        "tags": ["Organizations"],
+        "summary": "Get an organization by ID",
         "parameters": [
           {
+            "name": "organizationId",
             "in": "path",
-            "name": "id",
+            "required": true,
             "schema": {
               "type": "integer"
-            },
-            "required": true,
-            "description": "The organization ID"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Organization details"
+            "description": "A single organization"
           }
         }
       },
       "put": {
-        "summary": "Update organization",
-        "tags": ["Organizations"],
+        "summary": "Update an organization",
         "parameters": [
           {
+            "name": "organizationId",
             "in": "path",
-            "name": "id",
+            "required": true,
             "schema": {
               "type": "integer"
-            },
-            "required": true,
-            "description": "The organization ID"
+            }
           }
         ],
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
+                "$ref": "#/components/schemas/Organization"
               }
             }
           }
@@ -284,24 +174,19 @@
         "responses": {
           "200": {
             "description": "Organization updated successfully"
-          },
-          "400": {
-            "description": "Bad request"
           }
         }
       },
       "delete": {
-        "summary": "Delete organization",
-        "tags": ["Organizations"],
+        "summary": "Delete an organization",
         "parameters": [
           {
+            "name": "organizationId",
             "in": "path",
-            "name": "id",
+            "required": true,
             "schema": {
               "type": "integer"
-            },
-            "required": true,
-            "description": "The organization ID"
+            }
           }
         ],
         "responses": {
@@ -311,194 +196,117 @@
         }
       }
     },
-    "/superadmin/users": {
+    "/auth/logs": {
       "get": {
-        "summary": "List all users for superadmin",
-        "tags": ["Superadmin"],
+        "summary": "Get all auth logs",
         "responses": {
           "200": {
-            "description": "A list of users"
+            "description": "A list of auth logs"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new auth log",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthLog"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Auth log created successfully"
           }
         }
       }
     },
-    "/superadmin/organizations": {
+    "/payments": {
       "get": {
-        "summary": "List all organizations for superadmin",
-        "tags": ["Superadmin"],
-        "responses": {
-          "200": {
-            "description": "A list of organizations"
-          }
-        }
-      }
-    },
-    "/superadmin/payments": {
-      "get": {
-        "summary": "List all payments for superadmin",
-        "tags": ["Superadmin"],
+        "summary": "Get all payments",
         "responses": {
           "200": {
             "description": "A list of payments"
           }
         }
-      }
-    },
-    "/settings": {
-      "get": {
-        "summary": "Get settings",
-        "tags": ["Settings"],
-        "responses": {
-          "200": {
-            "description": "Settings details"
-          }
-        }
       },
-      "put": {
-        "summary": "Update settings",
-        "tags": ["Settings"],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "key": {
-                    "type": "string"
-                  },
-                  "value": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Settings updated successfully"
-          },
-          "400": {
-            "description": "Bad request"
-          }
-        }
-      }
-    },
-    "/profile": {
-      "get": {
-        "summary": "Get profile settings",
-        "tags": ["Profile"],
-        "responses": {
-          "200": {
-            "description": "Profile settings details"
-          }
-        }
-      },
-      "put": {
-        "summary": "Update profile settings",
-        "tags": ["Profile"],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "key": {
-                    "type": "string"
-                  },
-                  "value": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Profile settings updated successfully"
-          },
-          "400": {
-            "description": "Bad request"
-          }
-        }
-      }
-    },
-    "/contact": {
       "post": {
-        "summary": "Contact us",
-        "tags": ["Contact"],
+        "summary": "Create a new payment",
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "message": {
-                    "type": "string"
-                  }
-                },
-                "required": ["name", "email", "message"]
+                "$ref": "#/components/schemas/Payment"
               }
             }
           }
         },
         "responses": {
+          "201": {
+            "description": "Payment created successfully"
+          }
+        }
+      }
+    },
+    "/messages": {
+      "get": {
+        "summary": "Get all messages",
+        "responses": {
           "200": {
+            "description": "A list of messages"
+          }
+        }
+      },
+      "post": {
+        "summary": "Send a new message",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Message"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
             "description": "Message sent successfully"
-          },
-          "400": {
-            "description": "Bad request"
           }
         }
       }
     },
     "/notifications": {
       "get": {
-        "summary": "List all notifications",
-        "tags": ["Notifications"],
+        "summary": "Get all notifications",
         "responses": {
           "200": {
             "description": "A list of notifications"
           }
         }
-      }
-    },
-    "/notifications/{id}": {
-      "get": {
-        "summary": "Get notification details",
-        "tags": ["Notifications"],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "schema": {
-              "type": "integer"
-            },
-            "required": true,
-            "description": "The notification ID"
+      },
+      "post": {
+        "summary": "Create a new notification",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Notification"
+              }
+            }
           }
-        ],
+        },
         "responses": {
-          "200": {
-            "description": "Notification details"
+          "201": {
+            "description": "Notification created successfully"
           }
         }
       }
     },
-    "/blog/posts": {
+    "/blog_posts": {
       "get": {
-        "summary": "List all blog posts",
-        "tags": ["Blog"],
+        "summary": "Get all blog posts",
         "responses": {
           "200": {
             "description": "A list of blog posts"
@@ -506,23 +314,12 @@
         }
       },
       "post": {
-        "summary": "Create a blog post",
-        "tags": ["Blog"],
+        "summary": "Create a new blog post",
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string"
-                  },
-                  "content": {
-                    "type": "string"
-                  }
-                },
-                "required": ["title", "content"]
+                "$ref": "#/components/schemas/BlogPost"
               }
             }
           }
@@ -530,95 +327,396 @@
         "responses": {
           "201": {
             "description": "Blog post created successfully"
-          },
-          "400": {
-            "description": "Bad request"
           }
         }
       }
     },
-    "/blog/posts/{id}": {
+    "/invitations": {
       "get": {
-        "summary": "Get blog post details",
-        "tags": ["Blog"],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "schema": {
-              "type": "integer"
-            },
-            "required": true,
-            "description": "The blog post ID"
-          }
-        ],
+        "summary": "Get all invitations",
         "responses": {
           "200": {
-            "description": "Blog post details"
+            "description": "A list of invitations"
           }
         }
       },
-      "put": {
-        "summary": "Update blog post",
-        "tags": ["Blog"],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "schema": {
-              "type": "integer"
-            },
-            "required": true,
-            "description": "The blog post ID"
-          }
-        ],
+      "post": {
+        "summary": "Create a new invitation",
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string"
-                  },
-                  "content": {
-                    "type": "string"
-                  }
-                }
+                "$ref": "#/components/schemas/Invitation"
               }
             }
           }
         },
         "responses": {
+          "201": {
+            "description": "Invitation created successfully"
+          }
+        }
+      }
+    },
+    "/waitlist": {
+      "get": {
+        "summary": "Get all waitlist entries",
+        "responses": {
           "200": {
-            "description": "Blog post updated successfully"
-          },
-          "400": {
-            "description": "Bad request"
+            "description": "A list of waitlist entries"
           }
         }
       },
-      "delete": {
-        "summary": "Delete blog post",
-        "tags": ["Blog"],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "schema": {
-              "type": "integer"
-            },
-            "required": true,
-            "description": "The blog post ID"
+      "post": {
+        "summary": "Add a new waitlist entry",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Waitlist"
+              }
+            }
           }
-        ],
+        },
         "responses": {
-          "204": {
-            "description": "Blog post deleted successfully"
+          "201": {
+            "description": "Waitlist entry added successfully"
+          }
+        }
+      }
+    },
+    "/email_templates": {
+      "get": {
+        "summary": "Get all email templates",
+        "responses": {
+          "200": {
+            "description": "A list of email templates"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new email template",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailTemplate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Email template created successfully"
+          }
+        }
+      }
+    },
+    "/user_settings": {
+      "get": {
+        "summary": "Get all user settings",
+        "responses": {
+          "200": {
+            "description": "A list of user settings"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new user setting",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSetting"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User setting created successfully"
+          }
+        }
+      }
+    },
+    "/organization_settings": {
+      "get": {
+        "summary": "Get all organization settings",
+        "responses": {
+          "200": {
+            "description": "A list of organization settings"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new organization setting",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganizationSetting"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Organization setting created successfully"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "remember_token": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Organization": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AuthLog": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "login_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "logout_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "login_ip": {
+            "type": "string"
+          }
+        }
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "organization_id": {
+            "type": "integer"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "payment_method": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Message": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "sender_id": {
+            "type": "integer"
+          },
+          "recipient_id": {
+            "type": "integer"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "sent_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "read_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BlogPost": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "published_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Invitation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "invite_id": {
+            "type": "integer"
+          },
+          "invitee_email": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Waitlist": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "email": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "EmailTemplate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          }
+        }
+      },
+      "UserSetting": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "OrganizationSetting": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "organization_id": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
           }
         }
       }
     }
   }
-}
+        }
+            
